@@ -28,3 +28,22 @@ export interface HomeFeed {
   manhwa: MediaItem[];
   novels: MediaItem[];
 }
+
+export interface MediaItemCategory {
+  id: number;
+  title: MediaTitle;
+  type: string;
+  format: string;
+  coverImage: {
+    extraLarge: string;
+    color?: string;
+  };
+  averageScore?: number;
+  episodes?: number;
+  chapters?: number;
+  volumes?: number;
+  status?: string;
+  description?: string;
+  genres?: string[];
+  category: string;
+}
