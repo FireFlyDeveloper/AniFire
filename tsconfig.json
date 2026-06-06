@@ -12,9 +12,7 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["node"],
-    "jsx": "react",
-    "jsxImportSource": "react"
+    "types": ["node"]
   },
   "include": ["src/**/*", "app.ts"],
   "exclude": ["node_modules", "dist"]
