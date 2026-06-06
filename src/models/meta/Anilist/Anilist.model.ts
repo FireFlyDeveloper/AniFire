@@ -1,5 +1,10 @@
 import BaseModel from "..";
-import { HomeFeed, MediaItem, SearchResult, PageInfo } from "../../../types/meta/anilist";
+import {
+  HomeFeed,
+  MediaItem,
+  SearchResult,
+  PageInfo,
+} from "../../../types/meta/anilist";
 import { ANILIST_QUERIES } from "./anilist.queries";
 
 class AnilistModel extends BaseModel {
@@ -36,7 +41,7 @@ class AnilistModel extends BaseModel {
     search: string,
     type: "ANIME" | "MANGA",
     page: number = 1,
-    perPage: number = 20
+    perPage: number = 20,
   ): Promise<SearchResult> {
     const body = JSON.stringify({
       query: ANILIST_QUERIES.SEARCH_MEDIA,

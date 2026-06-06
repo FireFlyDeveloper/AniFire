@@ -540,6 +540,6 @@ export const ANILIST_QUERIES = {
       }
     }
   `,
-} as const
+} as const;
 
-export type AnilistQuery = keyof typeof ANILIST_QUERIES
+export type AnilistQuery = keyof typeof ANILIST_QUERIES;

@@ -168,8 +168,36 @@ export interface MediaDetail extends MediaItem {
 }
 
 // Type aliases for convenience
-export type MediaType = 'ANIME' | 'MANGA';
-export type MediaFormat = 'TV' | 'TV_SHORT' | 'MOVIE' | 'SPECIAL' | 'OVA' | 'ONA' | 'MUSIC' | 'MANGA' | 'NOVEL' | 'ONE_SHOT';
-export type MediaStatus = 'FINISHED' | 'RELEASING' | 'NOT_YET_RELEASED' | 'CANCELLED' | 'HIATUS';
-export type MediaSeason = 'WINTER' | 'SPRING' | 'SUMMER' | 'FALL';
-export type MediaSource = 'ORIGINAL' | 'MANGA' | 'LIGHT_NOVEL' | 'VISUAL_NOVEL' | 'VIDEO_GAME' | 'OTHER' | 'NOVEL' | 'DOUJINSHI' | 'ANIME' | 'WEB_MANGA' | 'WEB_NOVEL' | 'COMIC' | 'GAME';
+export type MediaType = "ANIME" | "MANGA";
+export type MediaFormat =
+  | "TV"
+  | "TV_SHORT"
+  | "MOVIE"
+  | "SPECIAL"
+  | "OVA"
+  | "ONA"
+  | "MUSIC"
+  | "MANGA"
+  | "NOVEL"
+  | "ONE_SHOT";
+export type MediaStatus =
+  | "FINISHED"
+  | "RELEASING"
+  | "NOT_YET_RELEASED"
+  | "CANCELLED"
+  | "HIATUS";
+export type MediaSeason = "WINTER" | "SPRING" | "SUMMER" | "FALL";
+export type MediaSource =
+  | "ORIGINAL"
+  | "MANGA"
+  | "LIGHT_NOVEL"
+  | "VISUAL_NOVEL"
+  | "VIDEO_GAME"
+  | "OTHER"
+  | "NOVEL"
+  | "DOUJINSHI"
+  | "ANIME"
+  | "WEB_MANGA"
+  | "WEB_NOVEL"
+  | "COMIC"
+  | "GAME";

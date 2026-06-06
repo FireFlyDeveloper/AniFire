@@ -47,11 +47,13 @@ bun run start
 ## API Endpoints
 
 ### Get Home Feed
+
 **Endpoint:** `GET /api/meta/home`
 
 Returns a combined feed of anime, manga, manhwa, and novels, sorted by average score.
 
 **Response Example:**
+
 ```json
 [
   {
@@ -73,35 +75,41 @@ Returns a combined feed of anime, manga, manhwa, and novels, sorted by average s
     "description": "Humanity fights for survival against giant humanoid creatures...",
     "genres": ["Action", "Drama", "Fantasy"],
     "category": "Anime"
-  },
+  }
   // ... more items
 ]
 ```
 
 ### Health Check
+
 **Endpoint:** `GET /`
 
 Returns a simple "Hello, World!" response to verify server status.
 
 ### Search Media
+
 **Endpoint:** `GET /api/meta/search`
 
 Search for anime or manga with support for pagination.
 
 **Required Parameters:**
+
 - `search` - Search query string
 - `type` - Media type: either `ANIME` or `MANGA`
 
 **Optional Parameters:**
+
 - `page` - Page number (default: 1, minimum: 1)
 - `perPage` - Results per page (default: 20, range: 1-50)
 
 **Example Request:**
+
 ```
 GET /api/meta/search?search=one%20piece&type=ANIME&page=1&perPage=10
 ```
 
 **Example Response:**
+
 ```json
 {
   "items": [
@@ -142,6 +150,7 @@ GET /api/meta/search?search=one%20piece&type=ANIME&page=1&perPage=10
 **Error Responses:**
 
 - `400 Bad Request` - Missing or invalid parameters
+
 ```json
 {
   "error": "Missing required parameter: search"
@@ -149,6 +158,7 @@ GET /api/meta/search?search=one%20piece&type=ANIME&page=1&perPage=10
 ```
 
 - `500 Internal Server Error` - API error
+
 ```json
 {
   "error": "Failed to fetch search results",
@@ -157,19 +167,23 @@ GET /api/meta/search?search=one%20piece&type=ANIME&page=1&perPage=10
 ```
 
 ### Get Media by ID
+
 **Endpoint:** `GET /api/meta/info/:id`
 
 Get detailed information for a specific anime or manga by its AniList ID.
 
 **Path Parameters:**
+
 - `id` - The AniList media ID (positive integer)
 
 **Example Request:**
+
 ```
 GET /api/meta/info/21
 ```
 
 **Example Response:**
+
 ```json
 {
   "id": 21,
@@ -269,6 +283,7 @@ GET /api/meta/info/21
 **Error Responses:**
 
 - `400 Bad Request` - Invalid or missing ID
+
 ```json
 {
   "error": "Missing or invalid parameter: id (must be a positive integer)"
@@ -276,6 +291,7 @@ GET /api/meta/info/21
 ```
 
 - `404 Not Found` - Media ID doesn't exist (AniList returns null)
+
 ```json
 {
   "error": "Failed to fetch media by ID",
@@ -284,6 +300,7 @@ GET /api/meta/info/21
 ```
 
 - `500 Internal Server Error` - API error
+
 ```json
 {
   "error": "Failed to fetch media by ID",
@@ -327,6 +344,7 @@ AniFire/
 ### MediaItem - Comprehensive Fields
 
 **Basic Information:**
+
 - `id`: Unique identifier
 - `title`: Object containing `romaji`, `english`, `native`, `userPreferred` titles
 - `type`: Media type (ANIME, MANGA)
@@ -337,6 +355,7 @@ AniFire/
 - `isAdult`: Adult content flag
 
 **Dates & Season:**
+
 - `startDate`: Object with `year`, `month`, `day`
 - `endDate`: Object with `year`, `month`, `day`
 - `season`: Season (WINTER, SPRING, SUMMER, FALL)
@@ -345,12 +364,14 @@ AniFire/
 - `source`: Source material (MANGA, NOVEL, ORIGINAL, etc.)
 
 **Counts & Duration:**
+
 - `episodes`: Episode count (anime)
 - `chapters`: Chapter count (manga/manhwa)
 - `volumes`: Volume count
 - `duration`: Episode duration in minutes (anime)
 
 **Ratings & Metrics:**
+
 - `averageScore`: Average user score 0-100
 - `meanScore`: Mean score alternative metric
 - `popularity`: Popularity ranking
@@ -358,21 +379,26 @@ AniFire/
 - `trending`: Trending score
 
 **Content Classification:**
+
 - `genres`: Array of genre strings (Action, Drama, etc.)
 - `tags`: Array of tag objects with name, rank, spoiler flags
 
 **Studio & Team Information:**
+
 - `studios`: Studio information including names, isMainStudio, siteUrl
 
 **Rankings:**
+
 - `rankings`: Array of rankings (popularity, score, all-time, etc.)
 
 **External Integration:**
+
 - `externalLinks`: Streaming platforms, official sites, social media
 - `streamingEpisodes`: Available streaming episodes with thumbnails
 - `trailer`: Trailer information with ID and thumbnail
 
 **Visual Assets:**
+
 - `coverImage`: Object with `extraLarge`, `large`, `medium` sizes and `color`
 - `bannerImage`: Large banner image
 - `siteUrl`: AniList site reference URL
@@ -386,7 +412,9 @@ AniFire/
 5. **GET_TRENDING_MEDIA**: Currently trending media
 
 ### Categories
+
 The API returns content categorized as:
+
 - `Anime`: Trending anime series
 - `Manga`: Popular manga
 - `Manhwa`: Korean manhwa
@@ -395,18 +423,21 @@ The API returns content categorized as:
 ## Development
 
 ### Code Style
+
 ```bash
 # Format code with Prettier
 bun run prettier
 ```
 
 ### Scripts
+
 - `bun run dev` - Start development server with hot reload
 - `bun run build` - Build for production
 - `bun run start` - Run production build
 - `bun run prettier` - Format code
 
 ### Environment Variables
+
 - `PORT` - Server port (default: 3000)
 
 ## How It Works
@@ -460,6 +491,7 @@ Contributions are welcome! Please follow these steps:
 ## Recent Updates
 
 ### v2.2.0 - Media by ID Endpoint (Current)
+
 - ✅ **New API Endpoint**: `GET /api/meta/info/:id` for detailed media lookup
 - 🆔 **ID-Based Discovery**: Get comprehensive anime/manga details by AniList ID
 - 📊 **Rich Data Returns**: All 50+ fields including studios, rankings, external links
@@ -470,6 +502,7 @@ Contributions are welcome! Please follow these steps:
 - ✅ **Parameter Validation**: Proper ID validation and error handling
 
 ### v2.1.0 - Search Endpoint
+
 - ✅ **New API Endpoint**: `GET /api/meta/search` for anime/manga search
 - 🔍 **Search Functionality**: Full search by title with query parameters
 - 📄 **Pagination Support**: Configurable page (min 1) and perPage (1-50) parameters
@@ -480,6 +513,7 @@ Contributions are welcome! Please follow these steps:
 - 🎨 **Error Responses**: Proper HTTP status codes and error messages
 
 ### v2.0.1 - API Compatibility Fixes
+
 - 🐛 **Fixed GraphQL Syntax Errors**: Removed `isMainStudio` and `bannerSkipImage` fields that don't exist in AniList API
 - ✅ **Validated All Queries**: Tested all 5 query types against live AniList GraphQL endpoint
 - 🔄 **Updated TypeScript Types**: Matched interfaces to actual AniList API schema
@@ -487,6 +521,7 @@ Contributions are welcome! Please follow these steps:
 - 📝 **Error Resolution**: Fixed 400 Bad Request errors with corrected field names
 
 ### v2.0 - GraphQL Enhancement
+
 - ✅ **Expanded GraphQL Queries**: Added 50+ additional fields per media item
 - ✅ **Multiple Query Types**: Home feed, detailed lookup, search, seasonal, trending
 - ✅ **Enhanced Data**: Studios, rankings, external links, streaming episodes, trailers
@@ -496,6 +531,7 @@ Contributions are welcome! Please follow these steps:
 - ✅ **Improved Documentation**: Complete data structure reference
 
 ### v1.0 - Initial Release
+
 - Basic home feed with anime, manga, manhwa, novels
 - Express.js framework
 - Basic GraphQL integration

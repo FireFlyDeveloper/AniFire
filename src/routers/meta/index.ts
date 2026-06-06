@@ -1,8 +1,8 @@
-import { Hono } from 'hono'
-import AnilistRoute from './anilist.route'
+import { Hono } from "hono";
+import AnilistRoute from "./anilist.route";
 
-const router = new Hono()
+const router = new Hono();
 
-router.route('/anilist', AnilistRoute)
+router.route("/anilist", AnilistRoute);
 
-export default router
+export default router;

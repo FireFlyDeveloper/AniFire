@@ -21,7 +21,7 @@ class AnilistService {
     search: string,
     type: "ANIME" | "MANGA",
     page: number = 1,
-    perPage: number = 20
+    perPage: number = 20,
   ): Promise<SearchResult> {
     return await AnilistModel.fetchSearch(search, type, page, perPage);
   }
