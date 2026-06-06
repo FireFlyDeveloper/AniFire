@@ -25,6 +25,10 @@ class AnilistService {
   ): Promise<SearchResult> {
     return await AnilistModel.fetchSearch(search, type, page, perPage);
   }
+
+  async getMediaById(id: number): Promise<MediaItem> {
+    return await AnilistModel.fetchMediaById(id);
+  }
 }
 
 export default new AnilistService();

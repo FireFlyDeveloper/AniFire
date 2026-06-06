@@ -68,6 +68,27 @@ class AnilistModel extends MetaModel {
       pageInfo: data.pageInfo,
     };
   }
+
+  async fetchMediaById(id: number): Promise<MediaItem> {
+    const body = JSON.stringify({
+      query: ANILIST_QUERIES.GET_MEDIA_BY_ID,
+      variables: {
+        id,
+      },
+    });
+
+    const result = await this.request<{
+      data: {
+        Media: MediaItem;
+      };
+    }>(this.url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    });
+
+    return result.data.Media;
+  }
 }
 
 export default new AnilistModel();

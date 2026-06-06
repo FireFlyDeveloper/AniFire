@@ -6,5 +6,6 @@ const controller = new AnilistController()
 
 router.get('/home', controller.getHomeFeed.bind(controller))
 router.get('/search', controller.search.bind(controller))
+router.get('/info/:id', controller.getById.bind(controller))
 
 export default router

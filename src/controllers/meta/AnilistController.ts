@@ -62,4 +62,27 @@ export default class AnilistController {
       )
     }
   }
+
+  async getById(c: AppContext) {
+    try {
+      const idParam = c.req.param('id')
+      const id = parseInt(idParam || '')
+
+      if (!idParam || isNaN(id) || id <= 0) {
+        return c.json(
+          { error: 'Missing or invalid parameter: id (must be a positive integer)' },
+          400
+        )
+      }
+
+      const media = await AnilistService.getMediaById(id)
+      return c.json(media, 200)
+    } catch (err: any) {
+      console.error('[AniListController] Error:', err)
+      return c.json(
+        { error: 'Failed to fetch media by ID', details: err.message },
+        500
+      )
+    }
+  }
 }

@@ -156,6 +156,141 @@ GET /api/meta/search?search=one%20piece&type=ANIME&page=1&perPage=10
 }
 ```
 
+### Get Media by ID
+**Endpoint:** `GET /api/meta/info/:id`
+
+Get detailed information for a specific anime or manga by its AniList ID.
+
+**Path Parameters:**
+- `id` - The AniList media ID (positive integer)
+
+**Example Request:**
+```
+GET /api/meta/info/21
+```
+
+**Example Response:**
+```json
+{
+  "id": 21,
+  "title": {
+    "romaji": "One Piece",
+    "english": "One Piece",
+    "native": "ワンピース",
+    "userPreferred": "One Piece"
+  },
+  "type": "ANIME",
+  "format": "TV",
+  "status": "RELEASING",
+  "description": "Gold Roger was known as the 'Pirate King'...",
+  "synonyms": ["OP"],
+  "isAdult": false,
+  "countryOfOrigin": "JP",
+  "source": "MANGA",
+  "startDate": {
+    "year": 1999,
+    "month": 10,
+    "day": 20
+  },
+  "endDate": {
+    "year": null,
+    "month": null,
+    "day": null
+  },
+  "season": "FALL",
+  "seasonYear": 1999,
+  "seasonInt": 35,
+  "episodes": null,
+  "duration": 24,
+  "averageScore": 87,
+  "meanScore": 86,
+  "popularity": 710896,
+  "favourites": 35000,
+  "trending": 245,
+  "genres": ["Action", "Adventure", "Comedy", "Fantasy"],
+  "tags": [
+    {
+      "name": "Pirates",
+      "rank": 98,
+      "isGeneralSpoiler": false,
+      "isMediaSpoiler": false
+    }
+  ],
+  "studios": {
+    "nodes": [
+      {
+        "id": 18,
+        "name": "Toei Animation",
+        "isAnimationStudio": true,
+        "siteUrl": "https://anilist.co/studio/18"
+      }
+    ]
+  },
+  "rankings": [
+    {
+      "rank": 5,
+      "type": "POPULARITY",
+      "allTime": true,
+      "context": "most popular anime"
+    }
+  ],
+  "externalLinks": [
+    {
+      "id": 1,
+      "url": "https://www.crunchyroll.com/one-piece",
+      "site": "Crunchyroll",
+      "type": "streaming"
+    }
+  ],
+  "streamingEpisodes": [
+    {
+      "title": "Episode 1000",
+      "thumbnail": "https://example.com/thumb.jpg",
+      "url": "https://example.com/watch",
+      "site": "Crunchyroll"
+    }
+  ],
+  "trailer": {
+    "id": "abc123",
+    "site": "youtube",
+    "thumbnail": "https://example.com/trailer.jpg"
+  },
+  "coverImage": {
+    "extraLarge": "https://example.com/cover-xl.jpg",
+    "large": "https://example.com/cover-lg.jpg",
+    "medium": "https://example.com/cover-md.jpg",
+    "color": "#0f1c47"
+  },
+  "bannerImage": "https://example.com/banner.jpg",
+  "siteUrl": "https://anilist.co/anime/21"
+}
+```
+
+**Error Responses:**
+
+- `400 Bad Request` - Invalid or missing ID
+```json
+{
+  "error": "Missing or invalid parameter: id (must be a positive integer)"
+}
+```
+
+- `404 Not Found` - Media ID doesn't exist (AniList returns null)
+```json
+{
+  "error": "Failed to fetch media by ID",
+  "details": "Media not found"
+}
+```
+
+- `500 Internal Server Error` - API error
+```json
+{
+  "error": "Failed to fetch media by ID",
+  "details": "Error message"
+}
+```
+
 ## Project Structure
 
 ```
@@ -240,7 +375,6 @@ AniFire/
 **Visual Assets:**
 - `coverImage`: Object with `extraLarge`, `large`, `medium` sizes and `color`
 - `bannerImage`: Large banner image
-- `bannerSkipImage`: Alternative banner image
 - `siteUrl`: AniList site reference URL
 
 ### Query Types
@@ -313,17 +447,29 @@ Contributions are welcome! Please follow these steps:
 
 - [x] Add search functionality
 - [x] Implement pagination support
+- [x] Implement media by ID endpoint
 - [ ] Implement caching for better performance
 - [ ] Create user authentication
 - [ ] Add favorites and watchlist features
 - [ ] Implement rate limiting
 - [ ] Add Docker support
 - [ ] Create comprehensive API documentation with Swagger
-- [ ] Implement new query endpoints (search by ID, seasonal, trending)
+- [ ] Implement seasonal anime endpoint
+- [ ] Implement trending media endpoint
 
 ## Recent Updates
 
-### v2.1.0 - Search Endpoint (Current)
+### v2.2.0 - Media by ID Endpoint (Current)
+- ✅ **New API Endpoint**: `GET /api/meta/info/:id` for detailed media lookup
+- 🆔 **ID-Based Discovery**: Get comprehensive anime/manga details by AniList ID
+- 📊 **Rich Data Returns**: All 50+ fields including studios, rankings, external links
+- 🎬 **Streaming Info**: External links, streaming episodes, and trailers
+- 🏢 **Studio Details**: Complete studio information and production details
+- ⭐ **Rankings & Scores**: Multiple ranking types and scoring metrics
+- 📚 **Complete Documentation**: Full API documentation with detailed examples
+- ✅ **Parameter Validation**: Proper ID validation and error handling
+
+### v2.1.0 - Search Endpoint
 - ✅ **New API Endpoint**: `GET /api/meta/search` for anime/manga search
 - 🔍 **Search Functionality**: Full search by title with query parameters
 - 📄 **Pagination Support**: Configurable page (min 1) and perPage (1-50) parameters
