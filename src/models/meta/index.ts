@@ -1,4 +1,4 @@
-export default abstract class MetaModel {
+export default abstract class BaseModel {
   abstract url: string;
   abstract name: string;
 

@@ -1,8 +1,8 @@
-import MetaModel from "..";
+import BaseModel from "..";
 import { HomeFeed, MediaItem, SearchResult, PageInfo } from "../../../types/meta/anilist";
 import { ANILIST_QUERIES } from "./anilist.queries";
 
-class AnilistModel extends MetaModel {
+class AnilistModel extends BaseModel {
   url = "https://graphql.anilist.co";
   name = "Anilist";
 
