@@ -9,7 +9,7 @@ export default abstract class MetaModel {
     try {
       const res = await fetch(url, options);
       if (!res.ok) throw new Error(`HTTP error! Status: ${res.status}`);
-      return await res.json();
+      return await res.json() as T;
     } catch (err) {
       console.error("Fetch failed:", err);
       throw err;
