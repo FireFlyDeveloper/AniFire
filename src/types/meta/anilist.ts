@@ -201,3 +201,58 @@ export type MediaSource =
   | "WEB_NOVEL"
   | "COMIC"
   | "GAME";
+
+// GraphQL Response Types
+
+// Home Feed GraphQL Response
+export interface HomeFeedGraphQLResponse {
+  data: {
+    trendingAnime: {
+      media: MediaItem[];
+    };
+    popularManga: {
+      media: MediaItem[];
+    };
+    manhwa: {
+      media: MediaItem[];
+    };
+    lightNovels: {
+      media: MediaItem[];
+    };
+  };
+}
+
+// Search GraphQL Response
+export interface SearchGraphQLResponse {
+  data: {
+    Page: {
+      pageInfo: PageInfo;
+      media: MediaItem[];
+    };
+  };
+}
+
+// Media By ID GraphQL Response
+export interface MediaByIdGraphQLResponse {
+  data: {
+    Media: MediaItem;
+  };
+}
+
+// Seasonal Anime GraphQL Response
+export interface SeasonalAnimeGraphQLResponse {
+  data: {
+    Page: {
+      media: MediaItem[];
+    };
+  };
+}
+
+// Trending Media GraphQL Response
+export interface TrendingMediaGraphQLResponse {
+  data: {
+    Page: {
+      media: MediaItem[];
+    };
+  };
+}

@@ -4,6 +4,9 @@ import {
   MediaItem,
   SearchResult,
   PageInfo,
+  HomeFeedGraphQLResponse,
+  SearchGraphQLResponse,
+  MediaByIdGraphQLResponse,
 } from "../../../types/meta/anilist";
 import { ANILIST_QUERIES } from "./anilist.queries";
 
@@ -14,14 +17,7 @@ class AnilistModel extends BaseModel {
   async fetchHomeFeed(): Promise<HomeFeed> {
     const body = JSON.stringify({ query: ANILIST_QUERIES.HOME_FEED });
 
-    const result = await this.request<{
-      data: {
-        trendingAnime: { media: MediaItem[] };
-        popularManga: { media: MediaItem[] };
-        manhwa: { media: MediaItem[] };
-        lightNovels: { media: MediaItem[] };
-      };
-    }>(this.url, {
+    const result = await this.request<HomeFeedGraphQLResponse>(this.url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body,
@@ -41,7 +37,7 @@ class AnilistModel extends BaseModel {
     search: string,
     type: "ANIME" | "MANGA",
     page: number = 1,
-    perPage: number = 20,
+    perPage: number = 20
   ): Promise<SearchResult> {
     const body = JSON.stringify({
       query: ANILIST_QUERIES.SEARCH_MEDIA,
@@ -53,14 +49,7 @@ class AnilistModel extends BaseModel {
       },
     });
 
-    const result = await this.request<{
-      data: {
-        Page: {
-          pageInfo: PageInfo;
-          media: MediaItem[];
-        };
-      };
-    }>(this.url, {
+    const result = await this.request<SearchGraphQLResponse>(this.url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body,
@@ -82,11 +71,7 @@ class AnilistModel extends BaseModel {
       },
     });
 
-    const result = await this.request<{
-      data: {
-        Media: MediaItem;
-      };
-    }>(this.url, {
+    const result = await this.request<MediaByIdGraphQLResponse>(this.url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body,
