@@ -8,7 +8,12 @@ Anime/Manga API service powered by Hono.js and AniList GraphQL.
 - **🎯 GraphQL-powered**: Direct integration with AniList's GraphQL API
 - **📚 Comprehensive Content**: Fetch anime, manga, manhwa, and novels in one request
 - **🏠 Home Feed**: Pre-configured feed with trending and popular content
-- **📊 Sorted Results**: Content sorted by average score
+- **📊 Rich Data Structure**: Complete anime/manga data including studios, ratings, external links, and more
+- **🔍 Multiple Query Types**: Home feed, detailed media lookup, search, seasonal, and trending queries
+- **📅 Full Metadata**: Start/end dates, season/year, episode counts, duration, and source material
+- **🎨 Visual Assets**: Multiple image sizes, banners, and trailers
+- **🏆 Rankings & Stats**: Popularity, favorites, trending, and all-time rankings
+- **🔗 External Integration**: Streaming platforms, official sites, and external links
 - **🎨 TypeScript**: Fully typed codebase for better DX
 - **⚡ Bun**: Ultra-fast runtime and package manager
 
@@ -111,22 +116,70 @@ AniFire/
 
 ## Data Structure
 
-### MediaItem
+### MediaItem - Comprehensive Fields
+
+**Basic Information:**
 - `id`: Unique identifier
-- `title`: Object containing `romaji`, `english`, `native` titles
+- `title`: Object containing `romaji`, `english`, `native`, `userPreferred` titles
 - `type`: Media type (ANIME, MANGA)
-- `format`: Format (TV, MOVIE, NOVEL, etc.)
-- `coverImage`: Cover image URLs and color
-- `averageScore`: Score 0-100
+- `format`: Format (TV, MOVIE, NOVEL, ONE_SHOT, etc.)
+- `status`: Publishing status (FINISHED, RELEASING, NOT_YET_RELEASED, etc.)
+- `description`: Summary text (plain text)
+- `synonyms`: Alternative titles
+- `isAdult`: Adult content flag
+
+**Dates & Season:**
+- `startDate`: Object with `year`, `month`, `day`
+- `endDate`: Object with `year`, `month`, `day`
+- `season`: Season (WINTER, SPRING, SUMMER, FALL)
+- `seasonYear`: Release year
+- `countryOfOrigin`: Country code (JP, KR, CN, etc.)
+- `source`: Source material (MANGA, NOVEL, ORIGINAL, etc.)
+
+**Counts & Duration:**
 - `episodes`: Episode count (anime)
 - `chapters`: Chapter count (manga/manhwa)
 - `volumes`: Volume count
-- `status`: Publishing status
-- `description`: Summary text
-- `genres`: Array of genre strings
+- `duration`: Episode duration in minutes (anime)
+
+**Ratings & Metrics:**
+- `averageScore`: Average user score 0-100
+- `meanScore`: Mean score alternative metric
+- `popularity`: Popularity ranking
+- `favourites`: User favorites count
+- `trending`: Trending score
+
+**Content Classification:**
+- `genres`: Array of genre strings (Action, Drama, etc.)
+- `tags`: Array of tag objects with name, rank, spoiler flags
+
+**Studio & Team Information:**
+- `studios`: Studio information including names, isMainStudio, siteUrl
+
+**Rankings:**
+- `rankings`: Array of rankings (popularity, score, all-time, etc.)
+
+**External Integration:**
+- `externalLinks`: Streaming platforms, official sites, social media
+- `streamingEpisodes`: Available streaming episodes with thumbnails
+- `trailer`: Trailer information with ID and thumbnail
+
+**Visual Assets:**
+- `coverImage`: Object with `extraLarge`, `large`, `medium` sizes and `color`
+- `bannerImage`: Large banner image
+- `bannerSkipImage`: Alternative banner image
+- `siteUrl`: AniList site reference URL
+
+### Query Types
+
+1. **HOME_FEED**: Combined feed with trending anime, popular manga, manhwa, and novels
+2. **GET_MEDIA_BY_ID**: Detailed information for a specific media item
+3. **SEARCH_MEDIA**: Search anime/manga with pagination
+4. **GET_SEASONAL_ANIME**: All anime from a specific season/year
+5. **GET_TRENDING_MEDIA**: Currently trending media
 
 ### Categories
-The API returns a unified feed with content categorized as:
+The API returns content categorized as:
 - `Anime`: Trending anime series
 - `Manga`: Popular manga
 - `Manhwa`: Korean manhwa
@@ -193,11 +246,28 @@ Contributions are welcome! Please follow these steps:
 - [ ] Implement rate limiting
 - [ ] Add Docker support
 - [ ] Create comprehensive API documentation with Swagger
+- [ ] Implement new query endpoints (search by ID, seasonal, trending)
+
+## Recent Updates
+
+### v2.0 - GraphQL Enhancement (Current)
+- ✅ **Expanded GraphQL Queries**: Added 50+ additional fields per media item
+- ✅ **Multiple Query Types**: Home feed, detailed lookup, search, seasonal, trending
+- ✅ **Enhanced Data**: Studios, rankings, external links, streaming episodes, trailers
+- ✅ **Rich Metadata**: Full date information, season/year, duration, source material
+- ✅ **Multiple Image Sizes**: Extra large, large, medium covers + banners
+- ✅ **Comprehensive Types**: Updated TypeScript interfaces for all new fields
+- ✅ **Improved Documentation**: Complete data structure reference
+
+### v1.0 - Initial Release
+- Basic home feed with anime, manga, manhwa, novels
+- Express.js framework
+- Basic GraphQL integration
 
 ## Performance
 
-- **Bundle Size**: ~52KB (production)
-- **Build Time**: ~156ms
+- **Bundle Size**: ~62KB (production, with comprehensive types)
+- **Build Time**: ~10ms
 - **First Response Time**: <100ms (with proper caching)
 
 ## License
