@@ -1,8 +1,8 @@
-import express from "express";
-import AnilistRoute from "./meta/index";
+import { Hono } from 'hono'
+import AnilistRoute from './meta/index'
 
-const router = express.Router();
+const router = new Hono()
 
-router.use("/meta", AnilistRoute);
+router.route('/meta', AnilistRoute)
 
-export default router;
+export default router

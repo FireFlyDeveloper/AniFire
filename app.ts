@@ -1,21 +1,17 @@
-import express from "express";
-import router from "./src/routers/index";
+import { Hono } from 'hono'
+import router from './src/routers/index'
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const app = new Hono()
 
-app.use(express.json());
+app.get('/', (c) => {
+  return c.text('Hello, World!')
+})
 
-try {
-  app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  });
-} catch (error) {
-  console.error("Error starting server:", error);
+app.route('/api', router)
+
+const PORT = parseInt(process.env.PORT || '3000')
+
+export default {
+  port: PORT,
+  fetch: app.fetch,
 }
-
-app.get("/", (req, res) => {
-  res.send("Hello, World!");
-});
-
-app.use("/api", router);

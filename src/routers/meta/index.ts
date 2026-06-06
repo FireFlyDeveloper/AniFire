@@ -1,8 +1,8 @@
-import express from "express";
-import AnilistRoute from "./anilist.route";
+import { Hono } from 'hono'
+import AnilistRoute from './anilist.route'
 
-const router = express.Router();
+const router = new Hono()
 
-router.use("/anilist", AnilistRoute);
+router.route('/anilist', AnilistRoute)
 
-export default router;
+export default router
