@@ -3,7 +3,6 @@ import {
   HomeFeed,
   MediaItem,
   SearchResult,
-  PageInfo,
   HomeFeedGraphQLResponse,
   SearchGraphQLResponse,
   MediaByIdGraphQLResponse,
