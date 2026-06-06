@@ -33,7 +33,7 @@ Cache Features:
 });
 
 app.route("/api", router);
-app.route("/api", optimizedRouter);
+app.route("/api/optimized", optimizedRouter);
 
 const PORT = parseInt(process.env.PORT || "3000");
 

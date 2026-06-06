@@ -15,7 +15,7 @@ const redis = new Redis({
   family: 4, // IPv4
   keepAlive: 30000, // Keep connections alive
   enableReadyCheck: true, // Check if Redis is ready
-  enableOfflineQueue: false, // Disable offline queue for better error handling
+  enableOfflineQueue: true, // Enable offline queue for better reliability
 });
 
 redis.on("error", (err) => {
