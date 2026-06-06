@@ -5,5 +5,6 @@ const router = new Hono();
 const controller = new TopmanhuaController();
 
 router.get("/search", controller.search.bind(controller));
+router.get("/info", controller.getInfo.bind(controller));
 
 export default router;
