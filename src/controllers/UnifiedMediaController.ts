@@ -1,32 +1,32 @@
 import type { Context } from "hono";
 import UnifiedMediaService from "../services/UnifiedMediaService";
 import { MapResult } from "../mappers/AbstractMediaMapper";
+import { TopmanhuaMangaInfo } from "../types/topmanhua";
 
 type AppContext = Context;
 
 export default class UnifiedMediaController {
   private service = UnifiedMediaService;
 
+  getAvailableTypes(c: AppContext) {
+    return c.json({
+      success: true,
+      data: {
+        availableTypes: this.service.getAvailableTypes()
+      }
+    });
+  }
+
   async search(c: AppContext) {
     try {
       const query = c.req.query("q");
-      const type = c.req.query("type") as "ANIME" | "MANGA";
+      const type = c.req.query("type") as "ANIME" | "MANGA" | undefined;
 
       if (!query) {
         return c.json(
           {
             success: false,
             error: "Search query parameter 'q' is required",
-          },
-          400
-        );
-      }
-
-      if (!type || (type !== "ANIME" && type !== "MANGA")) {
-        return c.json(
-          {
-            success: false,
-            error: "Invalid or missing parameter: type (must be ANIME or MANGA)",
           },
           400
         );
@@ -57,23 +57,13 @@ export default class UnifiedMediaController {
   async getInfo(c: AppContext) {
     try {
       const id = c.req.query("id");
-      const type = c.req.query("type") as "ANIME" | "MANGA";
+      const type = c.req.query("type") as "ANIME" | "MANGA" | undefined;
 
       if (!id) {
         return c.json(
           {
             success: false,
             error: "ID parameter 'id' is required",
-          },
-          400
-        );
-      }
-
-      if (!type || (type !== "ANIME" && type !== "MANGA")) {
-        return c.json(
-          {
-            success: false,
-            error: "Invalid or missing parameter: type (must be ANIME or MANGA)",
           },
           400
         );

@@ -8,11 +8,31 @@ export interface MapResult<T = any, U = any> {
 }
 
 export abstract class AbstractMediaMapper<T = any, U = any> {
+  readonly supportedType: "ANIME" | "MANGA" | "ANIME|MANGA";
+
+  constructor(supportedType: "ANIME" | "MANGA" | "ANIME|MANGA" = "ANIME|MANGA") {
+    this.supportedType = supportedType;
+  }
+
   abstract search(query: string, type: "ANIME" | "MANGA"): Promise<MapResult<U>[]>;
   abstract getInfo(
     identifier: string | number,
     type: "ANIME" | "MANGA"
   ): Promise<MapResult<U>>;
+
+  protected validateType(type: "ANIME" | "MANGA", anilistData?: MediaItem): void {
+    if (!this.supportedType.includes(type)) {
+      throw new Error(
+        `${this.constructor.name} only supports ${this.supportedType} type, got ${type}`
+      );
+    }
+
+    if (anilistData && anilistData.type !== type) {
+      throw new Error(
+        `AniList data type mismatch: expected ${type}, got ${anilistData.type}`
+      );
+    }
+  }
 
   protected calculateSimilarity(str1: string, str2: string): number {
     const s1 = str1.toLowerCase().trim();

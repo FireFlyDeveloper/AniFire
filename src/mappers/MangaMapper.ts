@@ -3,14 +3,13 @@ import { TopmanhuaMangaInfo } from "../types/topmanhua";
 import AnilistService from "../services/meta/AnilistService";
 import TopmanhuaService from "../services/topmanhua/TopmanhuaService";
 
-export class MangaMapper extends AbstractMediaMapper<
-  any,
-  TopmanhuaMangaInfo
-> {
+export class MangaMapper extends AbstractMediaMapper<any, TopmanhuaMangaInfo> {
+  constructor() {
+    super("MANGA");
+  }
+
   async search(query: string, type: "ANIME" | "MANGA"): Promise<MapResult<TopmanhuaMangaInfo>[]> {
-    if (type !== "MANGA") {
-      throw new Error("MangaMapper only supports MANGA type");
-    }
+    this.validateType(type);
 
     const anilistResults = await AnilistService.getSearchResults(
       query,
@@ -22,6 +21,8 @@ export class MangaMapper extends AbstractMediaMapper<
     const mappedResults: MapResult<TopmanhuaMangaInfo>[] = [];
 
     for (const anilistItem of anilistResults.items) {
+      this.validateType(type, anilistItem);
+
       const searchTerm = anilistItem.title.userPreferred || anilistItem.title.romaji;
 
       let providerMatch: TopmanhuaMangaInfo | null = null;
@@ -30,7 +31,7 @@ export class MangaMapper extends AbstractMediaMapper<
       try {
         const searchResults = await TopmanhuaService.search(searchTerm);
 
-        const providerResults = searchResults.items.map((item) => ({
+        const providerResults = searchResults.items.map((item: any) => ({
           title: item.title,
           data: item
         }));
@@ -62,13 +63,19 @@ export class MangaMapper extends AbstractMediaMapper<
     identifier: string | number,
     type: "ANIME" | "MANGA"
   ): Promise<MapResult<TopmanhuaMangaInfo>> {
-    if (type !== "MANGA") {
-      throw new Error("MangaMapper only supports MANGA type");
-    }
+    this.validateType(type);
 
     const anilistItem = await AnilistService.getMediaById(
       typeof identifier === "number" ? identifier : parseInt(identifier)
     );
+
+    const actualType = anilistItem.type as "ANIME" | "MANGA";
+
+    if (actualType !== "MANGA") {
+      throw new Error(`Expected MANGA type, got ${actualType}. MangaMapper only handles manga content.`);
+    }
+
+    this.validateType(type, anilistItem);
 
     const searchTerm = anilistItem.title.userPreferred || anilistItem.title.romaji;
 
@@ -78,7 +85,7 @@ export class MangaMapper extends AbstractMediaMapper<
     try {
       const searchResults = await TopmanhuaService.search(searchTerm);
 
-      const providerResults = searchResults.items.map((item) => ({
+      const providerResults = searchResults.items.map((item: any) => ({
         title: item.title,
         data: item
       }));
