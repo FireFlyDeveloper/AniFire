@@ -51,7 +51,6 @@ export const ANILIST_QUERIES = {
               id
               name
               isAnimationStudio
-              isMainStudio
               siteUrl
             }
             edges {
@@ -94,7 +93,6 @@ export const ANILIST_QUERIES = {
             color
           }
           bannerImage
-          bannerSkipImage
           siteUrl
         }
       }
@@ -162,7 +160,6 @@ export const ANILIST_QUERIES = {
             color
           }
           bannerImage
-          bannerSkipImage
           siteUrl
         }
       }
@@ -230,7 +227,6 @@ export const ANILIST_QUERIES = {
             color
           }
           bannerImage
-          bannerSkipImage
           siteUrl
         }
       }
@@ -298,7 +294,6 @@ export const ANILIST_QUERIES = {
             color
           }
           bannerImage
-          bannerSkipImage
           siteUrl
         }
       }
@@ -357,7 +352,6 @@ export const ANILIST_QUERIES = {
             id
             name
             isAnimationStudio
-            isMainStudio
             siteUrl
           }
         }
@@ -392,7 +386,6 @@ export const ANILIST_QUERIES = {
           color
         }
         bannerImage
-        bannerSkipImage
         siteUrl
       }
     }

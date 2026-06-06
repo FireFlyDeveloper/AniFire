@@ -35,7 +35,6 @@ export interface Studio {
   id: number;
   name: string;
   isAnimationStudio?: boolean;
-  isMainStudio?: boolean;
   siteUrl?: string;
 }
 
@@ -120,7 +119,6 @@ export interface MediaItem {
   trailer?: Trailer;
   coverImage: MediaCoverImage;
   bannerImage?: string;
-  bannerSkipImage?: string;
   siteUrl?: string;
 }
 

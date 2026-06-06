@@ -250,7 +250,14 @@ Contributions are welcome! Please follow these steps:
 
 ## Recent Updates
 
-### v2.0 - GraphQL Enhancement (Current)
+### v2.0.1 - API Compatibility Fixes (Current)
+- 🐛 **Fixed GraphQL Syntax Errors**: Removed `isMainStudio` and `bannerSkipImage` fields that don't exist in AniList API
+- ✅ **Validated All Queries**: Tested all 5 query types against live AniList GraphQL endpoint
+- 🔄 **Updated TypeScript Types**: Matched interfaces to actual AniList API schema
+- 🚀 **Production Tested**: Verified API responses with successful data fetching
+- 📝 **Error Resolution**: Fixed 400 Bad Request errors with corrected field names
+
+### v2.0 - GraphQL Enhancement
 - ✅ **Expanded GraphQL Queries**: Added 50+ additional fields per media item
 - ✅ **Multiple Query Types**: Home feed, detailed lookup, search, seasonal, trending
 - ✅ **Enhanced Data**: Studios, rankings, external links, streaming episodes, trailers
