@@ -204,31 +204,30 @@ export type MediaSource =
 
 // GraphQL Response Types
 
+// Common Type Structures
+export interface MediaList {
+  media: MediaItem[];
+}
+
+export interface PaginatedMediaList {
+  pageInfo: PageInfo;
+  media: MediaItem[];
+}
+
 // Home Feed GraphQL Response
 export interface HomeFeedGraphQLResponse {
   data: {
-    trendingAnime: {
-      media: MediaItem[];
-    };
-    popularManga: {
-      media: MediaItem[];
-    };
-    manhwa: {
-      media: MediaItem[];
-    };
-    lightNovels: {
-      media: MediaItem[];
-    };
+    trendingAnime: MediaList;
+    popularManga: MediaList;
+    manhwa: MediaList;
+    lightNovels: MediaList;
   };
 }
 
 // Search GraphQL Response
 export interface SearchGraphQLResponse {
   data: {
-    Page: {
-      pageInfo: PageInfo;
-      media: MediaItem[];
-    };
+    Page: PaginatedMediaList;
   };
 }
 
@@ -242,17 +241,13 @@ export interface MediaByIdGraphQLResponse {
 // Seasonal Anime GraphQL Response
 export interface SeasonalAnimeGraphQLResponse {
   data: {
-    Page: {
-      media: MediaItem[];
-    };
+    Page: PaginatedMediaList;
   };
 }
 
 // Trending Media GraphQL Response
 export interface TrendingMediaGraphQLResponse {
   data: {
-    Page: {
-      media: MediaItem[];
-    };
+    Page: PaginatedMediaList;
   };
 }
