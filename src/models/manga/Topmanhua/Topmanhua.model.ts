@@ -1,7 +1,7 @@
 import axios from "axios";
 import * as cheerio from "cheerio";
-import BaseModel from "../meta/index";
-import { TopmanhuaSearchResult } from "../../../types/topmanhua";
+import BaseModel from "../../meta/index";
+import { TopmanhuaSearchResult } from "../../../../types/topmanhua";
 
 class TopmanhuaModel extends BaseModel {
   url = "https://www.topmanhua.fan";

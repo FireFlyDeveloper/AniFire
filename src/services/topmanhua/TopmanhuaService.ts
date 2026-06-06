@@ -1,4 +1,4 @@
-import TopmanhuaModel from "../../models/manga/Topmanhua.model";
+import TopmanhuaModel from "../../models/manga/Topmanhua/Topmanhua.model";
 import { TopmanhuaSearchResult } from "../../../types/topmanhua";
 
 class TopmanhuaService {
