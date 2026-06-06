@@ -83,6 +83,79 @@ Returns a combined feed of anime, manga, manhwa, and novels, sorted by average s
 
 Returns a simple "Hello, World!" response to verify server status.
 
+### Search Media
+**Endpoint:** `GET /api/meta/search`
+
+Search for anime or manga with support for pagination.
+
+**Required Parameters:**
+- `search` - Search query string
+- `type` - Media type: either `ANIME` or `MANGA`
+
+**Optional Parameters:**
+- `page` - Page number (default: 1, minimum: 1)
+- `perPage` - Results per page (default: 20, range: 1-50)
+
+**Example Request:**
+```
+GET /api/meta/search?search=one%20piece&type=ANIME&page=1&perPage=10
+```
+
+**Example Response:**
+```json
+{
+  "items": [
+    {
+      "id": 21,
+      "title": {
+        "romaji": "One Piece",
+        "english": "One Piece",
+        "native": "ワンピース",
+        "userPreferred": "One Piece"
+      },
+      "type": "ANIME",
+      "format": "TV",
+      "status": "RELEASING",
+      "coverImage": {
+        "extraLarge": "https://example.com/one-piece.jpg",
+        "large": "https://example.com/one-piece-large.jpg",
+        "color": "#0f1c47"
+      },
+      "averageScore": 87,
+      "episodes": null,
+      "genres": ["Action", "Adventure", "Comedy"],
+      "popularity": 150000,
+      "seasonYear": 1999,
+      "siteUrl": "https://anilist.co/anime/21"
+    }
+  ],
+  "pageInfo": {
+    "total": 100,
+    "perPage": 10,
+    "currentPage": 1,
+    "lastPage": 10,
+    "hasNextPage": true
+  }
+}
+```
+
+**Error Responses:**
+
+- `400 Bad Request` - Missing or invalid parameters
+```json
+{
+  "error": "Missing required parameter: search"
+}
+```
+
+- `500 Internal Server Error` - API error
+```json
+{
+  "error": "Failed to fetch search results",
+  "details": "Error message"
+}
+```
+
 ## Project Structure
 
 ```
@@ -238,9 +311,9 @@ Contributions are welcome! Please follow these steps:
 
 ## Roadmap
 
-- [ ] Add search functionality
+- [x] Add search functionality
+- [x] Implement pagination support
 - [ ] Implement caching for better performance
-- [ ] Add pagination support
 - [ ] Create user authentication
 - [ ] Add favorites and watchlist features
 - [ ] Implement rate limiting
@@ -250,7 +323,17 @@ Contributions are welcome! Please follow these steps:
 
 ## Recent Updates
 
-### v2.0.1 - API Compatibility Fixes (Current)
+### v2.1.0 - Search Endpoint (Current)
+- ✅ **New API Endpoint**: `GET /api/meta/search` for anime/manga search
+- 🔍 **Search Functionality**: Full search by title with query parameters
+- 📄 **Pagination Support**: Configurable page (min 1) and perPage (1-50) parameters
+- 🎯 **Type Filtering**: Search specifically for anime or manga
+- ⚠️ **Input Validation**: Comprehensive error handling for invalid parameters
+- 📊 **Rich Results**: Returns comprehensive media data with page info
+- 📚 **Documentation**: Complete API documentation with examples
+- 🎨 **Error Responses**: Proper HTTP status codes and error messages
+
+### v2.0.1 - API Compatibility Fixes
 - 🐛 **Fixed GraphQL Syntax Errors**: Removed `isMainStudio` and `bannerSkipImage` fields that don't exist in AniList API
 - ✅ **Validated All Queries**: Tested all 5 query types against live AniList GraphQL endpoint
 - 🔄 **Updated TypeScript Types**: Matched interfaces to actual AniList API schema

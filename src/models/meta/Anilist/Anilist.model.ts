@@ -1,5 +1,5 @@
 import MetaModel from "..";
-import { HomeFeed, MediaItem } from "../../../types/meta/anilist";
+import { HomeFeed, MediaItem, SearchResult, PageInfo } from "../../../types/meta/anilist";
 import { ANILIST_QUERIES } from "./anilist.queries";
 
 class AnilistModel extends MetaModel {
@@ -29,6 +29,43 @@ class AnilistModel extends MetaModel {
       manga: data.popularManga.media,
       manhwa: data.manhwa.media,
       novels: data.lightNovels.media,
+    };
+  }
+
+  async fetchSearch(
+    search: string,
+    type: "ANIME" | "MANGA",
+    page: number = 1,
+    perPage: number = 20
+  ): Promise<SearchResult> {
+    const body = JSON.stringify({
+      query: ANILIST_QUERIES.SEARCH_MEDIA,
+      variables: {
+        search,
+        type,
+        page,
+        perPage,
+      },
+    });
+
+    const result = await this.request<{
+      data: {
+        Page: {
+          pageInfo: PageInfo;
+          media: MediaItem[];
+        };
+      };
+    }>(this.url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body,
+    });
+
+    const data = result.data.Page;
+
+    return {
+      items: data.media,
+      pageInfo: data.pageInfo,
     };
   }
 }

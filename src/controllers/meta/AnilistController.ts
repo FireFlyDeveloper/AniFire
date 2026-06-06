@@ -16,4 +16,50 @@ export default class AnilistController {
       )
     }
   }
+
+  async search(c: AppContext) {
+    try {
+      const search = c.req.query('search')
+      const type = c.req.query('type') as 'ANIME' | 'MANGA' | undefined
+      const page = parseInt(c.req.query('page') || '1')
+      const perPage = parseInt(c.req.query('perPage') || '20')
+
+      if (!search) {
+        return c.json(
+          { error: 'Missing required parameter: search' },
+          400
+        )
+      }
+
+      if (!type || (type !== 'ANIME' && type !== 'MANGA')) {
+        return c.json(
+          { error: 'Invalid or missing parameter: type (must be ANIME or MANGA)' },
+          400
+        )
+      }
+
+      if (page < 1) {
+        return c.json(
+          { error: 'Invalid parameter: page must be greater than 0' },
+          400
+        )
+      }
+
+      if (perPage < 1 || perPage > 50) {
+        return c.json(
+          { error: 'Invalid parameter: perPage must be between 1 and 50' },
+          400
+        )
+      }
+
+      const results = await AnilistService.getSearchResults(search, type, page, perPage)
+      return c.json(results, 200)
+    } catch (err: any) {
+      console.error('[AniListController] Error:', err)
+      return c.json(
+        { error: 'Failed to fetch search results', details: err.message },
+        500
+      )
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import AnilistModel from "../../models/meta/Anilist/Anilist.model";
-import { MediaItemCategory } from "../../types/meta/anilist";
+import { MediaItemCategory, SearchResult } from "../../types/meta/anilist";
 
 class AnilistService {
   async getHomeFeed(): Promise<MediaItemCategory[]> {
@@ -15,6 +15,15 @@ class AnilistService {
     combined.sort((a, b) => (b.averageScore ?? 0) - (a.averageScore ?? 0));
 
     return combined;
+  }
+
+  async getSearchResults(
+    search: string,
+    type: "ANIME" | "MANGA",
+    page: number = 1,
+    perPage: number = 20
+  ): Promise<SearchResult> {
+    return await AnilistModel.fetchSearch(search, type, page, perPage);
   }
 }
 

@@ -5,5 +5,6 @@ const router = new Hono()
 const controller = new AnilistController()
 
 router.get('/home', controller.getHomeFeed.bind(controller))
+router.get('/search', controller.search.bind(controller))
 
 export default router
