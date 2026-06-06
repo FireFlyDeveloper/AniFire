@@ -11,6 +11,11 @@ const redis = new Redis({
     }
     return Math.min(times * 100, 3000);
   },
+  // Connection pooling configuration
+  family: 4, // IPv4
+  keepAlive: 30000, // Keep connections alive
+  enableReadyCheck: true, // Check if Redis is ready
+  enableOfflineQueue: false, // Disable offline queue for better error handling
 });
 
 redis.on("error", (err) => {
