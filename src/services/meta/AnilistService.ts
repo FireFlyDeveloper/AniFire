@@ -1,4 +1,4 @@
-import AnilistModel from "../../models/meta/AnilistModel";
+import AnilistModel from "../../models/meta/Anilist/Anilist.model";
 import { MediaItemCategory } from "../../types/meta/anilist";
 
 class AnilistService {

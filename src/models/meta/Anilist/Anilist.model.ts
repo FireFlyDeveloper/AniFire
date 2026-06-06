@@ -1,6 +1,6 @@
-import MetaModel from ".";
-import { HomeFeed, MediaItem } from "../../types/meta/anilist";
-import { ANILIST_QUERIES } from "../../graphql/queries/anilist.queries";
+import MetaModel from "..";
+import { HomeFeed, MediaItem } from "../../../types/meta/anilist";
+import { ANILIST_QUERIES } from "./anilist.queries";
 
 class AnilistModel extends MetaModel {
   url = "https://graphql.anilist.co";
