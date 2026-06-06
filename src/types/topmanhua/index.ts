@@ -1,4 +1,5 @@
 export interface TopmanhuaItem {
+  id: string;
   title: string;
   url: string;
 }
@@ -17,6 +18,7 @@ export interface TopmanhuaChapter {
 }
 
 export interface TopmanhuaMangaInfo {
+  id: string;
   alternative: string;
   genres: string[];
   release: string;

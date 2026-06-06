@@ -16,16 +16,16 @@ class TopmanhuaService {
     return results;
   }
 
-  async getInfo(url: string): Promise<TopmanhuaMangaInfo> {
-    if (!url || url.trim().length === 0) {
-      throw new Error("URL is required");
+  async getInfo(id: string): Promise<TopmanhuaMangaInfo> {
+    if (!id || id.trim().length === 0) {
+      throw new Error("ID is required");
     }
 
-    if (!url.startsWith("http")) {
-      throw new Error("Invalid URL format");
+    if (id.includes("/")) {
+      throw new Error("Invalid ID format");
     }
 
-    const info = await this.model.fetchInfo(url);
+    const info = await this.model.fetchInfo(id);
     return info;
   }
 }

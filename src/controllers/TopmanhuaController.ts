@@ -48,29 +48,19 @@ export default class TopmanhuaController {
 
   async getInfo(c: AppContext) {
     try {
-      const url = c.req.query("url");
+      const id = c.req.query("id");
 
-      if (!url) {
+      if (!id) {
         return c.json(
           {
             success: false,
-            error: "URL parameter 'url' is required",
+            error: "ID parameter 'id' is required",
           },
           400
         );
       }
 
-      if (!url.startsWith("http")) {
-        return c.json(
-          {
-            success: false,
-            error: "Invalid URL format",
-          },
-          400
-        );
-      }
-
-      const info = await this.service.getInfo(url);
+      const info = await this.service.getInfo(id);
 
       return c.json(
         {

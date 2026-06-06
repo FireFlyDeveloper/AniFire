@@ -7,6 +7,11 @@ class TopmanhuaModel extends BaseModel {
   url = "https://www.topmanhua.fan";
   name = "Topmanhua";
 
+  private extractIdFromUrl(url: string): string {
+    const parts = url.split("/").filter((part) => part.length > 0);
+    return parts[parts.length - 1] || "";
+  }
+
   async search(query: string): Promise<TopmanhuaSearchResult> {
     try {
       const { data } = await axios.get(
@@ -16,10 +21,16 @@ class TopmanhuaModel extends BaseModel {
       const $ = cheerio.load(data);
 
       const items = $(".tab-content-wrap .c-tabs-item__content")
-        .map((_, el) => ({
-          title: $(el).find(".post-title a").text().trim(),
-          url: $(el).find(".post-title a").attr("href") || "",
-        }))
+        .map((_, el) => {
+          const url = $(el).find(".post-title a").attr("href") || "";
+          const id = this.extractIdFromUrl(url);
+
+          return {
+            id,
+            title: $(el).find(".post-title a").text().trim(),
+            url,
+          };
+        })
         .get();
 
       return {
@@ -31,9 +42,10 @@ class TopmanhuaModel extends BaseModel {
     }
   }
 
-  async fetchInfo(url: string): Promise<TopmanhuaMangaInfo> {
+  async fetchInfo(id: string): Promise<TopmanhuaMangaInfo> {
     try {
-      const { data } = await axios.get(url);
+      const fullUrl = `${this.url}/manhua/${id}`;
+      const { data } = await axios.get(fullUrl);
 
       const $ = cheerio.load(data);
 
@@ -66,6 +78,7 @@ class TopmanhuaModel extends BaseModel {
       });
 
       const mangaData: TopmanhuaMangaInfo = {
+        id,
         alternative,
         genres,
         release,
