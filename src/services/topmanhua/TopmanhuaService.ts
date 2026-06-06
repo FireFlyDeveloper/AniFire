@@ -1,5 +1,5 @@
-import TopmanhuaModel from "../../models/topmanhua/Topmanhua.model";
-import { TopmanhuaSearchResult } from "../../types/topmanhua";
+import TopmanhuaModel from "../../models/manga/Topmanhua.model";
+import { TopmanhuaSearchResult } from "../../../types/topmanhua";
 
 class TopmanhuaService {
   private model = TopmanhuaModel;
