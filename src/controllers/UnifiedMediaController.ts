@@ -8,6 +8,42 @@ type AppContext = Context;
 export default class UnifiedMediaController {
   private service = UnifiedMediaService;
 
+  async initialize(c: AppContext) {
+    try {
+      await this.service.initialize();
+      
+      return c.json({
+        success: true,
+        message: "Cache services initialized successfully",
+      }, 200);
+    } catch (err: any) {
+      console.error("[UnifiedMediaController] Error:", err);
+      return c.json({
+        success: false,
+        error: "Failed to initialize cache services",
+        details: err.message,
+      }, 500);
+    }
+  }
+
+  async getStats(c: AppContext) {
+    try {
+      const stats = await this.service.getStats();
+
+      return c.json({
+        success: true,
+        data: stats,
+      });
+    } catch (err: any) {
+      console.error("[UnifiedMediaController] Error:", err);
+      return c.json({
+        success: false,
+        error: "Failed to get cache statistics",
+        details: err.message,
+      }, 500);
+    }
+  }
+
   getAvailableTypes(c: AppContext) {
     return c.json({
       success: true,
