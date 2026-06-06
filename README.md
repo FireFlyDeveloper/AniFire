@@ -84,6 +84,9 @@ Returns a simple "Hello, World!" response to verify server status.
 AniFire/
 ├── dist/                    # Build output
 ├── src/
+│   ├── graphql/
+│   │   └── queries/
+│   │       └── anilist.queries.ts     # GraphQL query definitions
 │   ├── controllers/
 │   │   └── meta/
 │   │       └── AnilistController.ts    # Request handlers
@@ -93,7 +96,7 @@ AniFire/
 │   ├── models/
 │   │   ├── meta/
 │   │   │   ├── index.ts               # Base model with request handler
-│   │   │   └── AnilistModel.ts        # Data fetching & GraphQL queries
+│   │   │   └── AnilistModel.ts        # Data fetching & API integration
 │   └── routers/
 │       ├── index.ts                   # Main router
 │       └── meta/
@@ -156,6 +159,9 @@ bun run prettier
    - Service uses AnilistModel to fetch data from AniList GraphQL API
 
 2. **GraphQL Queries**
+   - Queries are defined in `src/graphql/queries/anilist.queries.ts`
+   - Organized as typed constants for easy maintenance
+   - Models import and execute queries from the queries module
    - Fetches:
      - 6 trending anime
      - 6 popular manga
