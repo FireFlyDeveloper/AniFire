@@ -3,9 +3,9 @@ import { MangaMapper } from "../mappers/MangaMapper";
 import { TopmanhuaMangaInfo } from "../types/topmanhua";
 import AnilistService from "./meta/AnilistService";
 import CacheService from "./CacheService";
-import { RequestPool } from "../performance";
-import { ParallelExecutor } from "../performance";
-import { globalPerfMonitor } from "../performance";
+import { RequestPool } from "../performance/RequestPool";
+import { ParallelExecutor } from "../performance/ParallelExecutor";
+import { globalPerfMonitor } from "../performance/PerformanceMonitor";
 
 export class OptimizedMediaService {
   private mappers = {
