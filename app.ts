@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import router from "./src/routers/index";
 import optimizedRouter from "./src/routers/optimized/index";
+import requestRouter from "./src/routers/requests/index";
 import UnifiedMediaService from "./src/services/UnifiedMediaService";
 
 const app = new Hono();
@@ -22,6 +23,13 @@ Optimized: /api/optimized/*
   - GET /api/optimized/stats               - Performance statistics
   - POST /api/optimized/cleanup            - Cleanup stale data
 
+Request Stats: /api/requests/*
+  - GET /api/requests/trending              - Most requested items (trending)
+  - GET /api/requests/stats/:id            - Request stats for item
+  - GET /api/requests/overview              - Overall request statistics
+  - GET /api/requests/priority              - Priority queue preview
+  - POST /api/requests/reset               - Reset daily request counts
+
 Cache Features:
 ✅ PostgreSQL persistent storage with image data
 ✅ Redis high-speed caching layer
@@ -29,11 +37,13 @@ Cache Features:
 ✅ 5-minute cache TTL for optimal performance
 ✅ Parallel execution (10x faster)
 ✅ Request deduplication
-✅ Performance monitoring`);
+✅ Performance monitoring
+✅ Request tracking (boosts update priority)`);
 });
 
 app.route("/api", router);
 app.route("/api/optimized", optimizedRouter);
+app.route("/api/requests", requestRouter);
 
 const PORT = parseInt(process.env.PORT || "3000");
 

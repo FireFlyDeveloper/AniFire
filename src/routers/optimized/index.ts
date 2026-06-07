@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { trackRequest } from "../../middleware/track-requests";
 import OptimizedMediaController from "../../controllers/OptimizedMediaController";
 
 const router = new Hono();
@@ -30,10 +31,10 @@ router.get("/initialize", controller.initialize);
 router.post("/cleanup", controller.cleanup);
 
 // Search endpoint with optimizations
-router.get("/search", controller.search);
+router.get("/search", trackRequest, controller.search);
 
 // Info endpoint with optimizations
-router.get("/info/:id", controller.getInfo);
+router.get("/info/:id", trackRequest, controller.getInfo);
 
 // Statistics
 router.get("/stats", controller.stats);

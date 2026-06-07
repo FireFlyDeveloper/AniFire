@@ -6,7 +6,11 @@ Anime/Manga API service powered by Hono.js and AniList GraphQL.
 
 - **🔥 Ultra-Fast Performance**: Built with Hono.js + parallel execution + caching
 - **🚀 Optimized Endpoints**: 100x faster on cached requests, 10x faster on parallel operations
+- **🎯 Request-Based Priority Updates**: Intelligent scoring system updates frequently requested content first
 - **📊 Smart Caching**: Dual-layer Redis + PostgreSQL with image storage
+- **🔄 Adaptive Update System**: Learns content update patterns and adjusts frequency automatically
+- **🎓 Priority Queue**: Efficient batch processing with change detection and parallel execution
+- **🌟 Trending Analytics**: Track most requested items and user engagement metrics
 - **🎯 GraphQL-powered**: Direct integration with AniList's GraphQL API
 - **🔍 Request Deduplication**: Prevents duplicate in-flight API calls
 - **⚡ Parallel Execution**: Concurrent API calls for maximum speed

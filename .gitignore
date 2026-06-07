@@ -11,3 +11,5 @@ coverage/
 *.swp
 *.swo
 *~
+backups/*.sql.gz
+logs/
