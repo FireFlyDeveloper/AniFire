@@ -26,7 +26,7 @@ export class UpdateScheduler {
   private redis: Redis;
   private priorityCalc: UpdatePriorityCalculator;
   private requestService: RequestService;
-  private db: pg.Client;
+  private db: pg.Client | null;
 
   constructor() {
     this.redis = new Redis({
@@ -40,18 +40,35 @@ export class UpdateScheduler {
     this.priorityCalc = new UpdatePriorityCalculator();
     this.requestService = new RequestService();
 
-    // Create database connection
-    this.db = new pg.Client({
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT || '5432'),
-      database: process.env.DB_NAME || 'anifire',
-      user: process.env.DB_USER || 'casaos',
-      password: process.env.DB_PASSWORD
-    });
+    // Create database connection (only if password available)
+    const dbPassword = process.env.DB_PASSWORD || process.env.POSTGRES_PASSWORD;
 
-    this.db.connect().catch((err) => {
-      console.error('Failed to connect to database in UpdateScheduler:', err);
-    });
+    if (dbPassword) {
+      this.db = new pg.Client({
+        host: process.env.DB_HOST || 'localhost',
+        port: parseInt(process.env.DB_PORT || '5432'),
+        database: process.env.DB_NAME || 'anifire',
+        user: process.env.DB_USER || 'casaos',
+        password: dbPassword
+      });
+
+      this.db.connect().catch((err) => {
+        console.error('Failed to connect to database in UpdateScheduler:', err);
+      });
+    } else {
+      console.warn('⚠️  UpdateScheduler: Database password not found, database features disabled');
+      this.db = null;
+    }
+  }
+
+  /**
+   * Helper method to safely execute queries
+   */
+  private async query(text: string, params?: any[]): Promise<any> {
+    if (!this.db) {
+      throw new Error('Database connection not available');
+    }
+    return await this.db.query(text, params);
   }
 
   /**
@@ -275,7 +292,7 @@ export class UpdateScheduler {
 
   private async getCachedItem(id: string): Promise<any> {
     const query = 'SELECT * FROM manga_cache WHERE key = $1';
-    const result = await this.db.query(query, [id]);
+    const result = await this.query(query, [id]);
     return result.rows[0] || null;
   }
 
@@ -297,7 +314,7 @@ export class UpdateScheduler {
       SET last_update = $1, last_hash = $2
       WHERE key = $3
     `;
-    await this.db.query(query, [metadata.last_update, metadata.last_hash, id]);
+    await this.query(query, [metadata.last_update, metadata.last_hash, id]);
   }
 
   private async shouldUpdate(id: string): Promise<boolean> {
@@ -314,7 +331,7 @@ export class UpdateScheduler {
       INSERT INTO update_history (item_key, update_time, chapter_count, change_detected)
       VALUES ($1, NOW(), $2, $3)
     `;
-    await this.db.query(query, [id, chapterCount, changed]);
+    await this.query(query, [id, chapterCount, changed]);
   }
 
   private async notifySubscribers(id: string): Promise<void> {

@@ -12,15 +12,28 @@ export interface RequestMetrics {
  * This provides data for priority-based update scheduling
  */
 export class RequestService {
-  private db: pg.Client;
+  private db: pg.Client | null;
 
   constructor() {
+    // Only create client if credentials are available
+    const dbHost = process.env.DB_HOST || process.env.POSTGRES_HOST || 'localhost';
+    const dbPort = process.env.DB_PORT || process.env.POSTGRES_PORT || '5432';
+    const dbName = process.env.DB_NAME || process.env.POSTGRES_DB || 'anifire';
+    const dbUser = process.env.DB_USER || process.env.POSTGRES_USER || 'casaos';
+    const dbPassword = process.env.DB_PASSWORD || process.env.POSTGRES_PASSWORD;
+
+    if (!dbPassword) {
+      console.warn('⚠️  RequestService: Database password not found, skipping database connection');
+      this.db = null;
+      return;
+    }
+
     this.db = new pg.Client({
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT || '5432'),
-      database: process.env.DB_NAME || 'anifire',
-      user: process.env.DB_USER || 'casaos',
-      password: process.env.DB_PASSWORD
+      host: dbHost,
+      port: parseInt(dbPort?.toString() || '5432'),
+      database: dbName,
+      user: dbUser,
+      password: dbPassword
     });
 
     // Connect immediately
@@ -30,10 +43,25 @@ export class RequestService {
   }
 
   /**
+   * Helper method to safely execute queries
+   */
+  private async query(text: string, params?: any[]): Promise<any> {
+    if (!this.db) {
+      throw new Error('Database connection not available');
+    }
+    return await this.db.query(text, params);
+  }
+
+  /**
    * Track a user request
    * Updates request counts, timestamps, and boosts update priority
    */
   async trackRequest(metrics: RequestMetrics): Promise<void> {
+    if (!this.db) {
+      console.warn('⚠️  Cannot track request: database not connected');
+      return;
+    }
+
     const now = new Date();
     const dayAgo = new Date(Date.now() - 86400000);
 
@@ -56,7 +84,7 @@ export class RequestService {
         WHERE anilist_id = $1
       `;
 
-      await this.db.query(updateQuery, [anilistId, now, dayAgo]);
+      await this.query(updateQuery, [anilistId, now, dayAgo]);
 
       // 2. Record request history
       const historyQuery = `
@@ -64,7 +92,7 @@ export class RequestService {
         VALUES ($1, $2, $3, $4, $5)
       `;
 
-      await this.db.query(historyQuery, [
+      await this.query(historyQuery, [
         anilistId,
         metrics.endpoint,
         metrics.ip,
@@ -81,7 +109,7 @@ export class RequestService {
           total_requests = update_statistics.total_requests + 1
       `;
 
-      await this.db.query(statsQuery, [anilistId]);
+      await this.query(statsQuery, [anilistId]);
 
       console.log(`✅ Request tracked: ${anilistId} (${metrics.endpoint})`);
     } catch (error) {
@@ -135,7 +163,7 @@ export class RequestService {
       LIMIT $1
     `;
 
-    const result = await this.db.query(query, [limit]);
+    const result = await this.query(query, [limit]);
     return result.rows;
   }
 
@@ -161,7 +189,7 @@ export class RequestService {
       WHERE mc.anilist_id = $1
     `;
 
-    const result = await this.db.query(query, [anilistId]);
+    const result = await this.query(query, [anilistId]);
     return result.rows[0] || null;
   }
 
@@ -181,7 +209,7 @@ export class RequestService {
       WHERE title IS NOT NULL
     `;
 
-    const result = await this.db.query(query);
+    const result = await this.query(query);
     return result.rows[0];
   }
 
@@ -221,7 +249,7 @@ export class RequestService {
       LIMIT $1
     `;
 
-    const result = await this.db.query(query, [limit]);
+    const result = await this.query(query, [limit]);
     return result.rows.map(row => row.id);
   }
 }

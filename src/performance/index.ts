@@ -3,11 +3,11 @@
  * Provides performance optimization utilities for AniFire API
  */
 
-export { RequestPool } from "./RequestPool.ts";
-export { ParallelExecutor } from "./ParallelExecutor.ts";
+export { RequestPool } from "./RequestPool";
+export { ParallelExecutor } from "./ParallelExecutor";
 export {
   PerformanceMonitor,
   PerformanceMetric,
   PerformanceStats,
   globalPerfMonitor,
-} from "./PerformanceMonitor.ts";
+} from "./PerformanceMonitor";
